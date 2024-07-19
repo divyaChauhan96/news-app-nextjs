@@ -4,7 +4,7 @@ import NavLink from "./NavLink";
 
 export default function MainNavigationHeader() {
   return (
-    <header class="main-header">
+    <header className="main-header">
       <div className="logo">
         <Link href="/">NextNews</Link>
       </div>
