@@ -1,3 +1,23 @@
-export default function NewsDetailPage() {
-  return <main>News Details</main>;
+import { notFound } from "next/navigation";
+
+import { DUMMY_NEWS } from "@/dummyNews";
+
+export default function NewsDetailsPage({ params }) {
+  const newsId = params.newsId;
+  const newsItem = DUMMY_NEWS.find((newsItem) => newsItem.slug === newsId);
+
+  if (!newsItem) {
+    notFound();
+  }
+
+  return (
+    <article className="news-article">
+      <header>
+        <img src={`/images/news/${newsItem.image}`} alt={newsItem.title} />
+        <h1>{newsItem.title}</h1>
+        <time dateTime={newsItem.date}>{newsItem.date}</time>
+      </header>
+      <p>{newsItem.content}</p>
+    </article>
+  );
 }
