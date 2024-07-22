@@ -1,19 +1,41 @@
-//import NewsList from "@/components/news/NewsList";
 import ArchiveHeader from "@/components/header/ArchiveHeader";
-import { getNewsForYear } from "@/lib/news";
+import NewsList from "@/components/news/NewsList";
+
+import {
+  getAvailableNewsMonths,
+  getNewsForMonthYear,
+  getNewsForYear,
+  getNewsYears,
+} from "@/lib/news";
 
 export default async function FilteredNewsPage({ params }) {
   const filterCriteria = params.filter;
-  console.log("O/p-------------", filterCriteria);
-  let year,
-    month = null;
-  if (filterCriteria?.length) {
+  let yearDataForHeader,
+    monthDataForHeader = [];
+
+  let newsList = [];
+  let year = filterCriteria?.[0];
+  let month = filterCriteria?.[1];
+  yearDataForHeader = await getNewsYears();
+  if (year) {
+    monthDataForHeader = await getAvailableNewsMonths(year);
+    if (month) {
+      newsList = await getNewsForMonthYear(year, month);
+    } else {
+      newsList = await getNewsForYear(year);
+    }
   }
-  // const news = await getNewsForYear(newsYear);
 
   return (
     <>
-      <ArchiveHeader />
+      <ArchiveHeader tabs={yearDataForHeader} year={year} isYearHeader={true} />
+      <ArchiveHeader
+        tabs={monthDataForHeader}
+        year={year}
+        month={month}
+        isYearHeader={false}
+      />
+      <NewsList news={newsList} />
     </>
   );
 }
