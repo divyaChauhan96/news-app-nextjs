@@ -1,9 +1,8 @@
 import { getNewsYears } from "@/lib/news";
 import Link from "next/link";
 
-export default async function Archive() {
+export default async function ArchiveHeader() {
   const years = await getNewsYears();
-
   return (
     <header className="archive-header">
       <nav>
